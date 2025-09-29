@@ -3,4 +3,4 @@ y = input("Introduzca el valor de y: ")
 
 x, y = y, x
 print(f"x={x}")
-print(f"x={y}")
+print(f"y={y}")
