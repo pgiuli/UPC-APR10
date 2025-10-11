@@ -6,7 +6,7 @@ class Pixel:
         self.a = a
     
     def __str__(self):
-        return f"{self.r}, {self.g}, {self.b} {self.a}"
+        return f"{self.r},{self.g},{self.b} {self.a}"
     
     def pixel_promedio(self, otro_pixel):
         r = round((self.r + otro_pixel.r)/2)
