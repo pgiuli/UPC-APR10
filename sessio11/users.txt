@@ -1,0 +1,5 @@
+4
+joan@pl.cat,joan,620329238,jubis
+lluc@pl.cat,lluc,729583937,lkj
+josep@pl.cat,josep,657846648,river
+a,b,c,d
