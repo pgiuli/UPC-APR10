@@ -2,3 +2,5 @@
 .DS_Store
 *.tar
 *__pycache__/
+
+temari/
