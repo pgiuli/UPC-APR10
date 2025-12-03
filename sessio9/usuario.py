@@ -5,5 +5,5 @@ class Usuario:
         self.contrasenya = contrasenya
 
     def __str__(self):
-        return f"Nom:{self.nom}    Telf:{self.telefono}"
+        return f"Nom:{self.nom}\tTelf:{self.telefono}"
 

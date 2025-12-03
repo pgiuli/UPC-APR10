@@ -30,11 +30,11 @@ while 1:
         case 3:
             print("Listado de usuarios:")
             for email in users.keys():
-                print(f"Email: {email}    {users[email]}")
+                print(f"Email: {email}\t{users[email]}")
         case 4:
             email = input("Introduce email del usuario: ")
             if email in users.keys():
-                print(f"Email: {email}    {users[email]}")
+                print(f"Email: {email}\t{users[email]}")
             else:
                 print("No existe ningún usuario con dicho email")
         case 5:
