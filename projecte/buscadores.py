@@ -1,5 +1,5 @@
 
-## @brief Excepción personalizada para manejar errores en la definición de intervalos de fechas.
+## @brief Excepción personalizada para manejar errores en la definición de intervalos de fechas
 #  @details Se lanza cuando los valores de inicio y final de un intervalo no son coherentes
 #  (p.ej., la fecha final es anterior a la fecha inicial) o tienen un formato
 #  incorrecto.
