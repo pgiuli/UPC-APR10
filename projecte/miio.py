@@ -40,4 +40,31 @@ class LectorPublicaciones:
     #  publicación.
     @staticmethod
     def leer(nombre_archivo):
-        raise Exception("\n--->LectorPublicaciones::leer. NO IMPLEMENTADO!!!\n")
+        file = open(nombre_archivo, "r")
+        pubs = {}
+        while True:
+            line = file.readline()[:-1]
+            if line == "": break
+
+            if line.split(";")[0] == "LIBRO":
+                obj, id, title, date, raw_authors, raw_keywords, editorial = line.split(_DELIM_CAMPO)
+            if line.split(";")[0] == "ARTICULO":
+                obj, id, title, date, raw_authors, raw_keywords, revista, impact = line.split(_DELIM_CAMPO)
+
+            raw_authors = raw_authors.split(_DELIM_LISTA)
+            authors = []
+            for au in raw_authors:
+                name, surname, institution = au.split(_DELIM_AUTOR)
+                if institution == "N/A": institution = None
+                author = Autor(name, surname, institution)
+                authors.append(author)
+            
+            keywords = raw_keywords.split(_DELIM_LISTA)
+
+
+            if obj == "LIBRO":
+                pubs[id] = Libro(title, id, author, keywords, date, editorial)
+            elif obj == "ARTICULO":
+                pubs[id] = ArticuloEnRevista(title, id, author, keywords, date, float(impact), revista)
+        
+        return pubs

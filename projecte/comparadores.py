@@ -33,6 +33,21 @@ from typing import Optional,List
 #  apellido lexicográficamente menor (el primero en orden alfabético).
 class ComparadorApellidos(Comparator):
 
+    ## @brief Método de utilidad para encontrar el apellido lexicográficamente
+    #  menor (el primero alfabéticamente) en la lista de autores de
+    #  una publicación.
+    #
+    #  @param pub La publicación de la cual extraer los autores.
+    #  @return El apellido lexicográficamente menor, o None si la
+    #  publicación no tiene autores o ningún autor tiene apellido.
+    def get_primer_apellido(self,pub):
+        autores = pub.get_autores()
+        surnames = []
+        for autor in autores:
+            surnames.append(autor.get_apellidos())
+        surname = min(surnames)
+        return surname
+
     ## @brief Compara dos publicaciones basándose en el primer apellido (según orden
     #  alfabético) de sus respectivas listas de autores.
     #  @details Para cada publicación (p1 y p2), primero encuentra el autor cuyo
@@ -44,17 +59,18 @@ class ComparadorApellidos(Comparator):
     #  @return Un valor negativo si el apellido de p1 es anterior,
     #  positivo si es posterior, o 0 si son iguales o si ambas no tienen autores.
     def compare(self,p1,p2):
-        raise Exception("\n--->ComparadorApellidos::compare. NO IMPLEMENTADO!!!\n")
+        p1_surname = get_primer_apellido(p1)
+        p2_surname = get_primer_apellido(p2)
 
-    ## @brief Método de utilidad para encontrar el apellido lexicográficamente
-    #  menor (el primero alfabéticamente) en la lista de autores de
-    #  una publicación.
-    #
-    #  @param pub La publicación de la cual extraer los autores.
-    #  @return El apellido lexicográficamente menor, o None si la
-    #  publicación no tiene autores o ningún autor tiene apellido.
-    def get_primer_apellido(self,pub):
-        raise Exception("\n--->ComparadorApellidos::get_primer_apellido. NO IMPLEMENTADO!!!\n")
+        if p1_surname < p2_surname:
+            return -1
+        elif p2_surname < p1_surname:
+            return 1
+        else:
+            return 0
+
+
+
 
 
 from typing import Optional
@@ -81,4 +97,16 @@ class ComparadorFechas(Comparator):
     #  cero si las fechas son iguales,
     #  o un entero positivo si la fecha de p1 es posterior a la de p2.
     def compare(self,p1,p2):
-        raise Exception("\n--->ComparadorFechas::compare. NO IMPLEMENTADO!!!\n")
+
+        fecha1 = p1.get_fetcha()
+        fecha2 = p2.get_fecha()
+
+        if fecha1 is not None and fecha2 is not None:
+            return int(fecha1) - int(fecha2)
+        else:
+            if fecha1 is None and fecha2 is not None:
+                return -1
+            elif fecha2 is None and fecha1 is not None:
+                return 1
+            else:
+                return 0
