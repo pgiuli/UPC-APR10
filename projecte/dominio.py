@@ -23,45 +23,49 @@ class Autor:
     #  @param apellidos Los apellidos del autor (opcional, por defecto "").
     #  @param institucion La institución del autor (opcional, por defecto "").
     def __init__(self,nombre: str = "",apellidos: str = "",institucion: str = ""):
-        raise Exception("\n--->Autor::__init__. NO IMPLEMENTADO!!!\n")
+        self.nombre = nombre
+        self.apellidos = apellidos
+        self.institucion = institucion	
+
+        self.pubs = {}
 
     ## @brief Obtiene el ID único del autor.
     #  @return El ID del autor (entero).
     def get_id(self):
-        raise Exception("\n--->Autor::get_id. NO IMPLEMENTADO!!!\n")
+        return self.id
 
     ## @brief Obtiene el nombre del autor.
     #  @return El nombre del autor.
     def get_nombre(self) :
-        raise Exception("\n--->Autor::get_nombre. NO IMPLEMENTADO!!!\n")
+        return self.nombre
 
     ## @brief Obtiene los apellidos del autor.
     #  @return Los apellidos del autor.
     def get_apellidos(self):
-        raise Exception("\n--->Autor::get_apellidos. NO IMPLEMENTADO!!!\n")
+        return self.apellidos
 
     ## @brief Obtiene la institución del autor.
     #  @return La institución del autor.
     def get_institucion(self):
-        raise Exception("\n--->Autor::get_institucion. NO IMPLEMENTADO!!!\n")
+        return self.institucion
 
     ## @brief Obtiene el mapa de publicaciones del autor.
     #  @return Un diccionario (equivalente a HashMap) de las publicaciones.
     def get_publicaciones(self) :
-        raise Exception("\n--->Autor::get_publicaciones. NO IMPLEMENTADO!!!\n")
+        return self.pubs
 
     ## @brief Obtiene el contador estático para el siguiente ID de autor.
     #  @return El siguiente ID a utilizar.
     @staticmethod
     def get_id_siguiente_autor():
-        raise Exception("\n--->Autor::get_id_siguiente_autor. NO IMPLEMENTADO!!!\n")
+        return Autor._id_siguiente_autor
 
     ## @brief Añade una publicación al mapa de publicaciones de este autor.
     #  @details La clave utilizada será el ID de la publicación.
     #
     #  @param publicacion El objeto Publicacion a añadir.
     def add_publicacion(self,publicacion: 'Publicacion'):
-        raise Exception("\n--->Autor::add_publicacion. NO IMPLEMENTADO!!!\n")
+        self.pubs[publicacion.get_id()] = publicacion
 
     ## @brief Devuelve un String con la información del autor.
     #  @details NO MODIFICAR EL MÉTODO.
@@ -87,32 +91,36 @@ class Publicacion:
     #  @param palabras_clave Una lista de palabras clave.
     #  @param fecha La fecha de publicación (formato "AAAAMM").
     def __init__(self, titulo, id, autores, palabras_clave, fecha):
-        raise Exception("\n--->Publicacion::__init__. NO IMPLEMENTADO!!!\n")
+        self.titulo = titulo
+        self.id = id
+        self.autores = autores
+        self.palabras_clave = palabras_clave
+        self.fecha = fecha
 
     ## @brief Obtiene el título de la publicación.
     #  @return El título.
     def get_titulo(self):
-        raise Exception("\n--->Publicacion::get_titulo. NO IMPLEMENTADO!!!\n")
+        return self.titulo
 
     ## @brief Obtiene el ID de la publicación.
     #  @return El ID.
     def get_id(self):
-        raise Exception("\n--->Publicacion::get_id. NO IMPLEMENTADO!!!\n")
+        return self.id
 
     ## @brief Obtiene las palabras clave de la publicación.
     #  @return Una lista de String con las palabras clave.
     def get_palabras_clave(self):
-        raise Exception("\n--->Publicacion::get_palabras_clave. NO IMPLEMENTADO!!!\n")
+        return self.palabras_clave
 
     ## @brief Obtiene la lista de autores de la publicación.
     #  @return Una lista de objetos Autor.
     def get_autores(self) :
-        raise Exception("\n--->Publicacion::get_autores. NO IMPLEMENTADO!!!\n")
+        return self.autores
 
     ## @brief Obtiene la fecha de publicación (formato "AAAAMM").
     #  @return La fecha (AAAAMM).
     def get_fecha(self):
-        raise Exception("\n--->Publicacion::get_fecha. NO IMPLEMENTADO!!!\n")
+        return self.fecha
 
     ## @brief Genera la representación en String de los atributos comunes de
     #  todos los tipos de publicación.
@@ -152,12 +160,13 @@ class Libro(Publicacion):
     #  @param fecha Año y mes de publicación.
     #  @param editorial La editorial del libro.
     def __init__(self, titulo: str, id: str, autores, palabras_clave, fecha, editorial):
-        raise Exception("\n--->Libro::__init__. NO IMPLEMENTADO!!!\n")
+        Publicacion.__init__(self, titulo, id, autores, palabras_clave, fecha)
+        self.editorial = editorial
 
     ## @brief Obtiene la editorial del libro.
     #  @return La editorial.
     def get_editorial(self):
-        raise Exception("\n--->Libro::get_editorial. NO IMPLEMENTADO!!!\n")
+        return self.editorial
 
     ## @brief Devuelve una representación en String completa del Libro.
     #  @details NO MODIFICAR EL MÉTODO.
@@ -181,19 +190,20 @@ class ArticuloEnRevista(Publicacion):
     #  @param fecha Año y mes de publicación.
     #  @param factor_impacto El factor de impacto de la revista (float).
     #  @param revista El nombre de la revista.
-    def __init__(self,titulo,id,autores,palabras_clave,
-                 fecha,factor_impacto,revista):
-        raise Exception("\n--->ArticuloEnRevista::__init__. NO IMPLEMENTADO!!!\n")
+    def __init__(self,titulo,id,autores,palabras_clave,fecha,factor_impacto,revista):
+        Publicacion.__init__(self, titulo, id, autores, palabras_clave, fecha)
+        self.factor_impacto = factor_impacto
+        self.revista = revista
 
     ## @brief Obtiene el factor de impacto de la revista.
     #  @return El factor de impacto.
     def get_factor_impacto(self):
-        raise Exception("\n--->ArticuloEnRevista::get_factor_impacto. NO IMPLEMENTADO!!!\n")
+        return self.factor_impacto
 
     ## @brief Obtiene el nombre de la revista.
     #  @return El nombre de la revista.
     def get_revista(self):
-        raise Exception("\n--->ArticuloEnRevista::get_revista. NO IMPLEMENTADO!!!\n")
+        return self.revista
 
     ## @brief Devuelve una representación en String completa del Artículo.
     #  @details NO MODIFICAR EL MÉTODO.
