@@ -73,4 +73,6 @@ if __name__ == "__main__":
     lector = LectorPublicaciones
     pubs = LectorPublicaciones.leer("publicaciones.txt")
     for pub in pubs.keys():
-        print(pubs[pub])
+        print(pub)
+        for author in pubs[pub].get_autores():
+            print(author.get_id())

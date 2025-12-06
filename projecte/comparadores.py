@@ -59,8 +59,8 @@ class ComparadorApellidos(Comparator):
     #  @return Un valor negativo si el apellido de p1 es anterior,
     #  positivo si es posterior, o 0 si son iguales o si ambas no tienen autores.
     def compare(self,p1,p2):
-        p1_surname = get_primer_apellido(p1)
-        p2_surname = get_primer_apellido(p2)
+        p1_surname = self.get_primer_apellido(p1)
+        p2_surname = self.get_primer_apellido(p2)
 
         if p1_surname < p2_surname:
             return -1
@@ -98,7 +98,7 @@ class ComparadorFechas(Comparator):
     #  o un entero positivo si la fecha de p1 es posterior a la de p2.
     def compare(self,p1,p2):
 
-        fecha1 = p1.get_fetcha()
+        fecha1 = p1.get_fecha()
         fecha2 = p2.get_fecha()
 
         if fecha1 is not None and fecha2 is not None:

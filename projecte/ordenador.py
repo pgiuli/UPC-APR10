@@ -29,10 +29,10 @@ class Ordenador:
     #  @param publicaciones La lista de objetos Publicacion a ordenar.
     #  @return Una <b>nueva</b> lista que contiene las publicaciones ordenadas.
     def ordena(self,publicaciones):
-        pubs = publicaciones.copy()
+        pubs = publicaciones
 
         #Bubble sort implementation:
-        for _ in len(pubs):
+        for _ in range(len(pubs)):
             for i in range(len(pubs)-1):
                 pub1 = pubs[i]
                 pub2 = pubs[i+1]

@@ -64,8 +64,8 @@ class BuscadorPorIntervalo(Buscador):
         elif int(inicio) > int(fin):
             raise IntervaloException("La fecha de inicio no puede ser posterior a la de fin.")
         else:
-            self.inicio = inicio
-            self.fin = fin
+            self.inicio = int(inicio)
+            self.fin = int(fin)
 
     ## @brief Busca en el mapa de publicaciones y devuelve una lista de aquellas
     #  cuya fecha de publicación esté dentro del intervalo [inicio, fin].
@@ -115,7 +115,7 @@ class BuscadorPorNombres(Buscador):
     #  formato "Nombre Apellidos" (nombre y apellidos separados
     #  por un espacio en blanco).
     def add_nombre(self,nombre: str):
-        self.names.append(nombre)
+        self.names.append(nombre.lower())
 
     ## @brief Busca en el mapa de publicaciones y devuelve una lista de aquellas
     #  que tengan al menos un autor que coincida con la lista interna.
@@ -132,15 +132,22 @@ class BuscadorPorNombres(Buscador):
     #  @return Una Lista de objetos Publicacion que coinciden con los
     #  criterios (autores) definidos.
     def busca(self,publicaciones):
+        #print("Searching against: ", self.names)
         pubs = []
         for id in publicaciones.keys():
             pub = publicaciones[id]
-            names = []
+            full_names = []
             authors = pub.get_autores()
             for author in authors:
-                names.append(author.get_nombre())
-            for name in names:
-                if name in self.names:
+                fullname = ""
+                fullname += author.get_nombre()
+                fullname += " "
+                fullname += author.get_apellidos()
+                fullname = fullname.lower()
+                #print(fullname)
+                full_names.append(fullname)
+            for full_name in full_names:
+                if full_name in self.names:
                     pubs.append(pub)
                     break
         return pubs
@@ -190,7 +197,7 @@ class BuscadorPorPalabrasClave(Buscador):
             keywords = []
             for keyword in pub.get_palabras_clave():
                 keywords.append(keyword.lower())
-            if self.estan_todas():
+            if self.estan_todas(keywords):
                 pubs.append(pub)
         return pubs
     # --- Getters ---

@@ -60,5 +60,67 @@ class EjecutorDesdeMemoria:
     #  @note PODÉIS DEFINIROS AQUEL(LOS) MÉTODO(S) ADICIONAL(ES) QUE
     #  CONSIDERÉIS OPORTUNO PARA ORGANIZAR EL CÓDIGO DE ESTA CLASE.
 
+    def get_all_sort_type_list(self, publist):
+        resultado = []
+        
+        comparador = ComparadorFechas()
+        ordenador = Ordenador(False, comparador)
+        sorted_pubs = ordenador.ordena(publist)
+        
+        for pub in sorted_pubs:
+            resultado.append(pub.__str__())
+
+        ordenador = Ordenador(True, comparador)
+        sorted_pubs = ordenador.ordena(publist)
+        
+        for pub in sorted_pubs:
+            resultado.append(pub.__str__())
+
+        comparador = ComparadorApellidos()
+        ordenador = Ordenador(False, comparador)
+        sorted_pubs = ordenador.ordena(publist)
+
+        for pub in sorted_pubs:
+            resultado.append(pub.__str__())
+        
+        ordenador = Ordenador(True, comparador)
+        sorted_pubs = ordenador.ordena(publist)
+
+        for pub in sorted_pubs:
+            resultado.append(pub.__str__())
+
+        return resultado
+
     def ejecuta(self):
-        raise Exception("\n--->EjecutorDesdeMemoria::__init__. NO IMPLEMENTADO!!!\n")
+        controller = Controlador()
+        pubs = GestorDeDatos.cargar_publicaciones_de_prueba()
+        for pub in pubs.keys():
+            controller.add_publicacion(pubs[pub])
+
+
+        buscador = BuscadorPorNombres()
+        buscador.add_nombre("Geoffrey Hinton")
+        publist = buscador.busca(controller.get_publicaciones())
+        
+        self.resultado.extend(self.get_all_sort_type_list(publist))
+        
+        buscador = BuscadorPorPalabrasClave()
+        buscador.add_palabra("neural networks")
+        buscador.add_palabra("optimization")
+        publist = buscador.busca(controller.get_publicaciones())
+        
+        self.resultado.extend(self.get_all_sort_type_list(publist))
+        
+        buscador = BuscadorPorIntervalo("197001", "198012")
+        publist = buscador.busca(controller.get_publicaciones())
+        
+        self.resultado.extend(self.get_all_sort_type_list(publist))
+
+
+
+
+        
+
+if __name__ == "__main__":
+    ejecutor = EjecutorDesdeMemoria()
+    ejecutor.ejecuta()

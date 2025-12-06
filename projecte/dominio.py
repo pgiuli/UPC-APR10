@@ -27,6 +27,9 @@ class Autor:
         self.apellidos = apellidos
         self.institucion = institucion	
 
+        self.id = self._id_siguiente_autor
+        Autor._id_siguiente_autor += 1 #Probs la part més important del projecte lol
+
         self.pubs = {}
 
     ## @brief Obtiene el ID único del autor.
@@ -110,6 +113,7 @@ class Publicacion:
     ## @brief Obtiene las palabras clave de la publicación.
     #  @return Una lista de String con las palabras clave.
     def get_palabras_clave(self):
+        #print(self.palabras_clave)
         return self.palabras_clave
 
     ## @brief Obtiene la lista de autores de la publicación.
