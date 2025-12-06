@@ -71,11 +71,11 @@ class Autor:
     #  @details NO MODIFICAR EL MÉTODO.
     #  @return String formateado como se indica en el documento enunciado del proyecto
     def __str__(self):
-        result = f"{self._nombre}:{self._apellidos}"
-        if not self._institucion:
+        result = f"{self.nombre}:{self.apellidos}"
+        if not self.institucion:
             result +=":N/A"
         else:
-            result +=self._institucion
+            result +=":"+self.institucion # A això li faltava el :
         return result
 
 ## @brief Clase abstracta que define una publicación genérica.
@@ -131,18 +131,18 @@ class Publicacion:
         # Se verifica si la lista existe y tiene contenido.
         # Se usa comprension de lista para convertir cada objeto Autor a string.
         txt_autores = ""
-        if self._autores:
-            txt_autores = "|".join([str(autor) for autor in self._autores])
+        if self.autores:
+            txt_autores = "|".join([str(autor) for autor in self.autores])
 
         # 2. Formatear la lista de Palabras Clave
         txt_palabras = ""
-        if self._palabras_clave:
-            txt_palabras = "|".join(self._palabras_clave)
+        if self.palabras_clave:
+            txt_palabras = "|".join(self.palabras_clave)
 
         # 3. Construcción final
         # Se mantiene la etiqueta "palabrasClave" en el string para coincidir con Java,
         # aunque la variable interna sea pythonica (_palabras_clave).
-        return (f"id={self._id}; titulo={self._titulo}; fecha={self._fecha}; "
+        return (f"id={self.id}; titulo={self.titulo}; fecha={self.fecha}; "
                 f"autores=[{txt_autores}]; palabrasClave=[{txt_palabras}]")
 
 # Asumimos que Publicacion y Autor están importados o disponibles en el namespace
@@ -172,7 +172,7 @@ class Libro(Publicacion):
     #  @details NO MODIFICAR EL MÉTODO.
     #  @return String formateado como se indica en el documento enunciado del proyecto
     def __str__(self):
-        return f"Libro;{super().__str__()}; editorial={self._editorial}"
+        return f"Libro;{super().__str__()}; editorial={self.editorial}"
 
 
 
@@ -212,4 +212,4 @@ class ArticuloEnRevista(Publicacion):
         # Utilizamos super().__str__() para traer la cadena de la clase padre
         # y f-strings para formatear el resto exactamente como en Java.
         return (f"ArticuloEnRevista;{super().__str__()}, "
-                f"factorImpacto={self._factor_impacto}; revista={self._revista}")
+                f"factorImpacto={self.factor_impacto}; revista={self.revista}")
