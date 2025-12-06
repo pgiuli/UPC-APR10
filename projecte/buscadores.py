@@ -194,9 +194,7 @@ class BuscadorPorPalabrasClave(Buscador):
         pubs = []
         for id in publicaciones.keys():
             pub = publicaciones[id]
-            keywords = []
-            for keyword in pub.get_palabras_clave():
-                keywords.append(keyword.lower())
+            keywords = pub.get_palabras_clave()
             if self.estan_todas(keywords):
                 pubs.append(pub)
         return pubs
@@ -208,8 +206,8 @@ class BuscadorPorPalabrasClave(Buscador):
         return self.keywords
 
     def estan_todas(self,pub_keywords_lower):
-        for keyword in pub_keywords_lower:
-            if keyword in self.keywords:
+        for keyword in self.keywords:
+            if keyword in pub_keywords_lower:
                 pass
             else:
                 return False
