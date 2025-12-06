@@ -9,7 +9,7 @@ class IntervaloException(Exception):
     #
     #  @param message El mensaje descriptivo del error.
     def __init__(self, message: str):
-        raise Exception("\n--->IntervaloException::__init__. NO IMPLEMENTADO!!!\n")
+        raise Exception(f"Error en el intervalo:\n{message}\n")
 
 
 from abc import ABC, abstractmethod
@@ -58,7 +58,14 @@ class BuscadorPorIntervalo(Buscador):
     #  @throws IntervaloException Si las fechas no tienen 6 caracteres
     #  (AAAAMM) o si la fecha fin es anterior a la fecha inicial.
     def __init__(self,inicio,fin):
-        raise Exception("\n--->BuscadorPorIntervalo::__init__. NO IMPLEMENTADO!!!\n")
+        
+        if len(inicio) != 6 or len(fin) != 6:
+            raise IntervaloException("Las fechas proporcionadas no son válidas.")
+        elif int(inicio) > int(fin):
+            raise IntervaloException("La fecha de inicio no puede ser posterior a la de fin.")
+        else:
+            self.inicio = inicio
+            self.fin = fin
 
     ## @brief Busca en el mapa de publicaciones y devuelve una lista de aquellas
     #  cuya fecha de publicación esté dentro del intervalo [inicio, fin].
@@ -70,20 +77,25 @@ class BuscadorPorIntervalo(Buscador):
     #  @return Una Lista de objetos Publicacion cuya fecha ("AAAAMM")
     #  esté dentro del intervalo.
     def busca(self,publicaciones):
-        raise Exception("\n--->BuscadorPorIntervalo::busca. NO IMPLEMENTADO!!!\n")
+        pubs = []
+        for id in publicaciones.keys():
+            pub = publicaciones[id]
+            if int(pub.get_fecha()) <= self.fin and int(pub.get_fecha()) >= self.inicio:
+                pubs.append(pub)
+        return pubs
+
 
     # --- Getters ---
 
     ## @brief Obtiene la fecha de inicio del intervalo.
     #  @return La fecha "AAAAMM".
     def get_inicio(self):
-        raise Exception("\n--->BuscadorPorIntervalo::get_inicio. NO IMPLEMENTADO!!!\n")
+        return self.inicio
 
     ## @brief Obtiene la fecha fin del intervalo.
     #  @return La fecha "AAAAMM".
     def get_final(self):
-        raise Exception("\n--->BuscadorPorIntervalo::get_final. NO IMPLEMENTADO!!!\n")
-
+        return self.fin
 
 
 # Asumimos que Buscador, Publicacion y Autor están disponibles.
@@ -95,7 +107,7 @@ class BuscadorPorNombres(Buscador):
     ## @brief Constructor de BuscaPorNombres.
     #  Inicializa la lista interna de nombres de autores como una lista vacía.
     def __init__(self):
-        raise Exception("\n--->BuscadorPorNombres::__init__. NO IMPLEMENTADO!!!\n")
+        self.names = []
 
     ## @brief Añade un nombre de autor a la lista de criterios de búsqueda.
     #
@@ -103,7 +115,7 @@ class BuscadorPorNombres(Buscador):
     #  formato "Nombre Apellidos" (nombre y apellidos separados
     #  por un espacio en blanco).
     def add_nombre(self,nombre: str):
-        raise Exception("\n--->BuscadorPorNombres::add_nombre. NO IMPLEMENTADO!!!\n")
+        self.names.append(nombre)
 
     ## @brief Busca en el mapa de publicaciones y devuelve una lista de aquellas
     #  que tengan al menos un autor que coincida con la lista interna.
@@ -120,14 +132,25 @@ class BuscadorPorNombres(Buscador):
     #  @return Una Lista de objetos Publicacion que coinciden con los
     #  criterios (autores) definidos.
     def busca(self,publicaciones):
-        raise Exception("\n--->BuscadorPorNombres::__init__. NO IMPLEMENTADO!!!\n")
-
+        pubs = []
+        for id in publicaciones.keys():
+            pub = publicaciones[id]
+            names = []
+            authors = pub.get_autores()
+            for author in authors:
+                names.append(author.get_nombre())
+            for name in names:
+                if name in self.names:
+                    pubs.append(pub)
+                    break
+        return pubs
+    
     # --- Getters ---
 
     ## @brief Obtiene la lista de nombres de autores utilizada para la búsqueda.
     #  @return La lista de nombres (formato "Nombre Apellidos").
     def get_nombres(self):
-        raise Exception("\n--->BuscadorPorNombres::get_nombres. NO IMPLEMENTADO!!!\n")
+        return self.names
 
 
 # Asumimos que Buscador y Publicacion están disponibles.
@@ -141,14 +164,14 @@ class BuscadorPorPalabrasClave(Buscador):
     ## @brief Constructor para BuscadorPorPalabrasClave.
     #  Inicializa la lista de palabras clave como una lista vacía.
     def __init__(self):
-        raise Exception("\n--->BuscadorPorPalabrasClave::__init__. NO IMPLEMENTADO!!!\n")
+        self.keywords = []
 
     ## @brief Añade una palabra clave a la lista de búsqueda.
     #  La palabra se convierte a minúsculas antes de ser añadida.
     #
     #  @param palabra La palabra clave a añadir.
     def add_palabra(self,palabra):
-        raise Exception("\n--->BuscadorPorPalabrasClave::add_palabra. NO IMPLEMENTADO!!!\n")
+        self.keywords.append(palabra)
 
     ## @brief Busca en el mapa de publicaciones y devuelve una lista de aquellas
     #  cuyas palabras clave contengan *todas* las palabras clave definidas
@@ -161,14 +184,28 @@ class BuscadorPorPalabrasClave(Buscador):
     #  @return Una Lista de objetos Publicacion que cumplen
     #  con todos los criterios de palabras clave.
     def busca(self,publicaciones):
-        raise Exception("\n--->BuscadorPorPalabrasClave::__init__. NO IMPLEMENTADO!!!\n")
-
+        pubs = []
+        for id in publicaciones.keys():
+            pub = publicaciones[id]
+            keywords = []
+            for keyword in pub.get_palabras_clave():
+                keywords.append(keyword.lower())
+            if self.estan_todas():
+                pubs.append(pub)
+        return pubs
     # --- Getters ---
 
     ## @brief Obtiene la lista de palabras clave de búsqueda.
     #  @return La lista de palabras clave (en minúsculas).
     def get_palabras(self):
-        raise Exception("\n--->BuscadorPorPalabrasClave::get_palabras. NO IMPLEMENTADO!!!\n")
+        return self.keywords
 
     def estan_todas(self,pub_keywords_lower):
-        raise Exception("\n--->BuscadorPorPalabrasClave::estan_todas. NO IMPLEMENTADO!!!\n")
+        for keyword in pub_keywords_lower:
+            if keyword in self.keywords:
+                pass
+            else:
+                return False
+        else:
+            return True
+
