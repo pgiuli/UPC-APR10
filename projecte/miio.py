@@ -47,24 +47,30 @@ class LectorPublicaciones:
             if line == "": break
 
             if line.split(";")[0] == "LIBRO":
-                obj, id, title, date, raw_authors, raw_keywords, editorial = line.split(_DELIM_CAMPO)
+                obj, id, title, date, raw_authors, raw_keywords, editorial = line.split(";")
             if line.split(";")[0] == "ARTICULO":
-                obj, id, title, date, raw_authors, raw_keywords, revista, impact = line.split(_DELIM_CAMPO)
+                obj, id, title, date, raw_authors, raw_keywords, revista, impact = line.split(";")
 
-            raw_authors = raw_authors.split(_DELIM_LISTA)
+            raw_authors = raw_authors.split("|")
             authors = []
             for au in raw_authors:
-                name, surname, institution = au.split(_DELIM_AUTOR)
+                name, surname, institution = au.split(":")
                 if institution == "N/A": institution = None
                 author = Autor(name, surname, institution)
                 authors.append(author)
             
-            keywords = raw_keywords.split(_DELIM_LISTA)
+            keywords = raw_keywords.split("|")
 
 
             if obj == "LIBRO":
-                pubs[id] = Libro(title, id, author, keywords, date, editorial)
+                pubs[id] = Libro(title, id, authors, keywords, date, editorial)
             elif obj == "ARTICULO":
-                pubs[id] = ArticuloEnRevista(title, id, author, keywords, date, float(impact), revista)
+                pubs[id] = ArticuloEnRevista(title, id, authors, keywords, date, float(impact), revista)
         
         return pubs
+
+if __name__ == "__main__":
+    lector = LectorPublicaciones
+    pubs = LectorPublicaciones.leer("publicaciones.txt")
+    for pub in pubs.keys():
+        print(pubs[pub])
