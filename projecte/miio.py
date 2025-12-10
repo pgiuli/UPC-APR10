@@ -43,7 +43,7 @@ class LectorPublicaciones:
         file = open(nombre_archivo, "r")
         pubs = {}
         while True:
-            line = file.readline()[:-1]
+            line = file.readline().rstrip("\n")
             if line == "": break
 
             if line.split(";")[0] == "LIBRO":

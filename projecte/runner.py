@@ -61,6 +61,7 @@ class EjecutorDesdeMemoria:
     #  CONSIDERÉIS OPORTUNO PARA ORGANIZAR EL CÓDIGO DE ESTA CLASE.
 
     def get_all_sort_type_list(self, publist):
+        print(publist)
         resultado = []
         
         comparador = ComparadorFechas()
@@ -88,7 +89,7 @@ class EjecutorDesdeMemoria:
 
         for pub in sorted_pubs:
             resultado.append(pub.__str__())
-
+        print(len(resultado))
         return resultado
 
     def ejecuta(self):
@@ -107,6 +108,7 @@ class EjecutorDesdeMemoria:
         buscador = BuscadorPorPalabrasClave()
         buscador.add_palabra("neural networks")
         buscador.add_palabra("optimization")
+        print(buscador.get_palabras())
         publist = buscador.busca(controller.get_publicaciones())
         
         self.resultado.extend(self.get_all_sort_type_list(publist))
@@ -124,3 +126,4 @@ class EjecutorDesdeMemoria:
 if __name__ == "__main__":
     ejecutor = EjecutorDesdeMemoria()
     ejecutor.ejecuta()
+    print(ejecutor.resultado)
