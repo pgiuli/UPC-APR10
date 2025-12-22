@@ -44,7 +44,10 @@ class ComparadorApellidos(Comparator):
         autores = pub.get_autores()
         surnames = []
         for autor in autores:
-            surnames.append(autor.get_apellidos())
+            if autor.get_apellidos() is not None:
+                surnames.append(autor.get_apellidos())
+        if len(surnames) == 0:
+            return None
         surname = min(surnames)
         return surname
 
@@ -61,6 +64,9 @@ class ComparadorApellidos(Comparator):
     def compare(self,p1,p2):
         p1_surname = self.get_primer_apellido(p1)
         p2_surname = self.get_primer_apellido(p2)
+
+        if p1_surname == None and p2_surname == None:
+            return 0
 
         if p1_surname < p2_surname:
             return -1
